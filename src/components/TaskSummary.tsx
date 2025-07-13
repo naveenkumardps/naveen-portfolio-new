@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Skeleton } from '@/components/ui/skeleton';
 import { AlertTriangle, Clock, Users, FileText, DollarSign, XCircle } from 'lucide-react';
 
 interface TaskUserData {
@@ -101,17 +99,17 @@ const TaskSummary: React.FC = () => {
     return (
       <div className="container mx-auto p-6 space-y-6">
         <div className="space-y-2">
-          <Skeleton className="h-8 w-96 mx-auto" />
-          <Skeleton className="h-4 w-64 mx-auto" />
+          <div className="h-8 w-96 mx-auto bg-gray-200 animate-pulse rounded" />
+          <div className="h-4 w-64 mx-auto bg-gray-200 animate-pulse rounded" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           {[...Array(5)].map((_, i) => (
             <Card key={i}>
               <CardHeader className="pb-2">
-                <Skeleton className="h-4 w-20" />
+                <div className="h-4 w-20 bg-gray-200 animate-pulse rounded" />
               </CardHeader>
               <CardContent>
-                <Skeleton className="h-8 w-16" />
+                <div className="h-8 w-16 bg-gray-200 animate-pulse rounded" />
               </CardContent>
             </Card>
           ))}
@@ -123,12 +121,12 @@ const TaskSummary: React.FC = () => {
   if (!data) {
     return (
       <div className="container mx-auto p-6">
-        <Card className="border-destructive">
+        <Card className="border-red-200">
           <CardContent className="flex items-center justify-center p-8">
             <div className="text-center space-y-2">
-              <XCircle className="h-12 w-12 text-destructive mx-auto" />
-              <h3 className="text-lg font-semibold text-destructive">No Data Available</h3>
-              <p className="text-muted-foreground">Unable to load task summary data</p>
+              <XCircle className="h-12 w-12 text-red-500 mx-auto" />
+              <h3 className="text-lg font-semibold text-red-600">No Data Available</h3>
+              <p className="text-gray-500">Unable to load task summary data</p>
             </div>
           </CardContent>
         </Card>
@@ -141,7 +139,7 @@ const TaskSummary: React.FC = () => {
       {/* Header */}
       <div className="text-center space-y-2">
         <h1 className="text-4xl font-bold tracking-tight">Task & User Summary Dashboard</h1>
-        <p className="text-muted-foreground">Comprehensive overview of task activities and user performance</p>
+        <p className="text-gray-500">Comprehensive overview of task activities and user performance</p>
       </div>
       
       {/* Mock Data Notice */}
@@ -223,19 +221,19 @@ const TaskSummary: React.FC = () => {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Total Hours</p>
+                    <p className="text-sm text-gray-500">Total Hours</p>
                     <p className="text-2xl font-bold">{user.total_hours}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Tasks</p>
+                    <p className="text-sm text-gray-500">Tasks</p>
                     <p className="text-2xl font-bold">{user.task_count}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Billable</p>
+                    <p className="text-sm text-gray-500">Billable</p>
                     <p className="text-xl font-semibold text-green-600">{user.billable_hours}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Non-Billable</p>
+                    <p className="text-sm text-gray-500">Non-Billable</p>
                     <p className="text-xl font-semibold text-orange-600">{user.non_billable_hours}</p>
                   </div>
                 </div>
@@ -251,40 +249,40 @@ const TaskSummary: React.FC = () => {
         <Card>
           <CardContent className="p-0">
             <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Employee</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Item</TableHead>
-                    <TableHead className="text-right">Hours</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Start Time</TableHead>
-                    <TableHead>End Time</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b bg-gray-50">
+                    <th className="text-left p-4 font-medium">Employee</th>
+                    <th className="text-left p-4 font-medium">Description</th>
+                    <th className="text-left p-4 font-medium">Item</th>
+                    <th className="text-right p-4 font-medium">Hours</th>
+                    <th className="text-left p-4 font-medium">Status</th>
+                    <th className="text-left p-4 font-medium">Date</th>
+                    <th className="text-left p-4 font-medium">Start Time</th>
+                    <th className="text-left p-4 font-medium">End Time</th>
+                  </tr>
+                </thead>
+                <tbody>
                   {data.task_user_data.map((task) => (
-                    <TableRow key={task.activity_id} className="hover:bg-muted/50">
-                      <TableCell className="font-medium">{task.employee_name}</TableCell>
-                      <TableCell className="max-w-xs truncate">
+                    <tr key={task.activity_id} className="border-b hover:bg-gray-50">
+                      <td className="p-4 font-medium">{task.employee_name}</td>
+                      <td className="p-4 max-w-xs truncate">
                         {task.description || 'No description'}
-                      </TableCell>
-                      <TableCell>{task.item_name}</TableCell>
-                      <TableCell className="text-right font-semibold">{task.hours_worked}</TableCell>
-                      <TableCell>
+                      </td>
+                      <td className="p-4">{task.item_name}</td>
+                      <td className="p-4 text-right font-semibold">{task.hours_worked}</td>
+                      <td className="p-4">
                         <Badge variant={getBillableStatusVariant(task.billable_status)}>
                           {task.billable_status}
                         </Badge>
-                      </TableCell>
-                      <TableCell>{formatDate(task.txn_date)}</TableCell>
-                      <TableCell>{formatTime(task.start_time)}</TableCell>
-                      <TableCell>{formatTime(task.end_time)}</TableCell>
-                    </TableRow>
+                      </td>
+                      <td className="p-4">{formatDate(task.txn_date)}</td>
+                      <td className="p-4">{formatTime(task.start_time)}</td>
+                      <td className="p-4">{formatTime(task.end_time)}</td>
+                    </tr>
                   ))}
-                </TableBody>
-              </Table>
+                </tbody>
+              </table>
             </div>
           </CardContent>
         </Card>
